@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EduTwin - Your personalized AI academic digital twin for study plans, streak tracking, and mastery analytics.">
+  <title>EduTwin — Personalized Study Plan & Academic Twin</title>
+  
+  <!-- Modern Typography (Plus Jakarta Sans & JetBrains Mono) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+  <!-- Header & Navigation -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-group">
+        <div class="logo-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">Edu<span class="highlight">Twin</span></span>
+          <span class="brand-tag">Govt Aspirant Twin • TNPSC & RRB</span>
+        </div>
+      </div>
+
+      <nav class="nav-links" id="mainNav">
+        <button class="nav-btn active" data-target="dashboardView">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+          Dashboard
+        </button>
+        <button class="nav-btn" data-target="planView">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          Study Plan
+        </button>
+        <button class="nav-btn" data-target="focusView">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Focus Studio
+        </button>
+        <button class="nav-btn" data-target="cardsView">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 12 2 2 4-4"/></svg>
+          Flashcards
+        </button>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Quick Streak Badge -->
+        <div class="header-streak-badge" id="headerStreakBadge" title="Current Daily Streak">
+          <span class="flame-icon">🔥</span>
+          <span class="streak-text" id="headerStreakCount">7 Days</span>
+        </div>
+
+        <button class="btn btn-primary btn-sm" id="btnOpenPlanModal">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New Plan
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <main class="main-content">
+    
+    <!-- Hero / Twin Sync Banner -->
+    <section class="twin-banner card">
+      <div class="banner-left">
+        <div class="twin-avatar-ring">
+          <div class="twin-avatar">
+            <span class="twin-emoji">🤖</span>
+            <span class="pulse-indicator"></span>
+          </div>
+        </div>
+        <div class="twin-info">
+          <div class="badge-row">
+            <span class="badge badge-indigo">Govt Exam Aspirant Twin</span>
+            <span class="badge badge-emerald" id="twinStatusTag">Pacing Target: Ahead of Schedule</span>
+          </div>
+          <h1 class="twin-title">Hello, Officer! Your EduTwin is <span class="sync-score" id="twinSyncScore">88%</span> Synced</h1>
+          <p class="twin-desc" id="twinDynamicMessage">
+            Based on your weekly study velocity, you are 3 hours ahead of your Unit 8, Polity and Aptitude milestones. Let's conquer today's study blocks!
+          </p>
+        </div>
+      </div>
+
+      <div class="banner-right">
+        <div class="quick-stat-box">
+          <span class="stat-label">Exam Countdown</span>
+          <span class="stat-value text-indigo" id="daysRemainingVal">45 Days</span>
+          <span class="stat-sub" id="targetExamName">TNPSC Group 4 & RRB</span>
+        </div>
+        <div class="quick-stat-box">
+          <span class="stat-label">Daily Focus Today</span>
+          <span class="stat-value text-emerald" id="todayHoursLogged">2.5 / 4.0 hrs</span>
+          <span class="stat-sub">62% Daily Target</span>
+        </div>
+        <button class="btn btn-outline btn-sm" id="btnTwinAdvisorQuick">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Ask EduTwin
+        </button>
+      </div>
+    </section>
+
+    <!-- VIEWS CONTAINER -->
+
+    <!-- 1. DASHBOARD VIEW (Default) -->
+    <div id="dashboardView" class="view-panel active-view">
+      
+      <!-- Top Grid: Streak Maintenance & Quick Mastery -->
+      <div class="grid-2-col">
+        <!-- Streak Maintenance Card -->
+        <section class="card streak-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <span class="card-icon flame-bg">🔥</span>
+              <div>
+                <h2>Streak Maintenance</h2>
+                <p class="card-subtitle">Consistency beats intensity. Keep your daily flame burning!</p>
+              </div>
+            </div>
+            <div class="freeze-shield" id="shieldStatus" title="Streak Freeze protects you if you miss a day">
+              <span class="shield-icon">🛡️</span>
+              <span class="shield-text" id="freezeCountText">1 Freeze Available</span>
+            </div>
+          </div>
+
+          <div class="streak-body">
+            <div class="streak-hero-stat">
+              <div class="streak-circle">
+                <span class="streak-huge-number" id="streakHeroCount">7</span>
+                <span class="streak-huge-label">DAYS STREAK</span>
+              </div>
+              <div class="streak-prompt-zone">
+                <h3 id="streakActionPrompt">Today's Check-In Pending</h3>
+                <p id="streakActionSub">Complete at least 1 study session or check in now to preserve your streak.</p>
+                <div class="streak-button-group">
+                  <button class="btn btn-emerald" id="btnDailyCheckin">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    Daily Check-In
+                  </button>
+                  <button class="btn btn-ghost btn-sm" id="btnUseShield" title="Use a freeze shield if taking a planned rest day">
+                    Use Shield
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 7-Day Consistency Bar -->
+            <div class="weekly-streak-strip">
+              <span class="strip-label">7-Day Consistency Heatmap</span>
+              <div class="day-pills-row" id="dayPillsContainer">
+                <!-- Dynamically generated day pills -->
+              </div>
+            </div>
+
+            <!-- Milestone Badges -->
+            <div class="milestones-row">
+              <span class="strip-label">Milestone Achievements</span>
+              <div class="milestone-badges" id="milestonesContainer">
+                <!-- Badges populated by JS -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Syllabus Progress Tracker Card -->
+        <section class="card progress-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <span class="card-icon progress-bg">📊</span>
+              <div>
+                <h2>Progress Tracker</h2>
+                <p class="card-subtitle">Live mastery breakdown across your active subjects</p>
+              </div>
+            </div>
+            <span class="badge badge-primary" id="tasksDoneRatio">12/18 Tasks</span>
+          </div>
+
+          <div class="progress-body">
+            <!-- Overall Syllabus Completion Bar -->
+            <div class="overall-progress-box">
+              <div class="progress-header-info">
+                <span class="progress-title">Overall Syllabus Mastery</span>
+                <span class="progress-percent" id="overallProgressPercent">67%</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" id="overallProgressBar" style="width: 67%;"></div>
+              </div>
+            </div>
+
+            <!-- Subject Mastery Bars -->
+            <div class="subject-mastery-list" id="subjectMasteryList">
+              <!-- Dynamically populated subject bars -->
+            </div>
+
+            <!-- Quick Study Time Logger -->
+            <div class="time-logger-bar">
+              <div class="time-stat-inline">
+                <span class="time-icon">⏱️</span>
+                <span>Total Studied This Week: <strong id="totalHoursWeek">14.5 hrs</strong></span>
+              </div>
+              <button class="btn btn-outline btn-xs" id="btnQuickLogHour">+ Log 30m Study</button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Bottom Grid: Today's Personalized Study Roadmap & Quick Focus -->
+      <div class="grid-2-col" style="margin-top: 24px;">
+        
+        <!-- Active Study Tasks -->
+        <section class="card roadmap-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <span class="card-icon roadmap-bg">🎯</span>
+              <div>
+                <h2>Today's Personalized Study Blocks</h2>
+                <p class="card-subtitle">Targeted tasks calibrated to your weak spots and exam timeline</p>
+              </div>
+            </div>
+            <div class="task-filter-group">
+              <select id="taskSubjectFilter" class="form-select-sm">
+                <option value="all">All Subjects</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="task-list-container" id="todayTasksList">
+            <!-- Task items generated dynamically -->
+          </div>
+
+          <div class="card-footer">
+            <button class="btn btn-ghost btn-sm" id="btnAddNewTaskQuick">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add Custom Topic
+            </button>
+            <span class="footer-hint">Tip: Check tasks off to boost your EduTwin Sync score!</span>
+          </div>
+        </section>
+
+        <!-- Mini Focus & Quick Recall Teaser -->
+        <div class="stack-col">
+          <!-- Mini Pomodoro Preview -->
+          <section class="card mini-focus-card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <span class="card-icon timer-bg">⏳</span>
+                <div>
+                  <h3>Focus Studio (Pomodoro)</h3>
+                  <p class="card-subtitle">Deep work session with focus audio</p>
+                </div>
+              </div>
+              <button class="btn btn-outline btn-xs" data-switch="focusView">Open Studio</button>
+            </div>
+            <div class="mini-timer-display">
+              <span class="timer-digits-sm" id="miniTimerDigits">25:00</span>
+              <div class="mini-timer-controls">
+                <button class="btn btn-primary btn-sm" id="btnMiniTimerPlay">Start Focus</button>
+                <button class="btn btn-ghost btn-sm" id="btnMiniTimerReset">Reset</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Flashcard Recall Card -->
+          <section class="card mini-recall-card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <span class="card-icon flash-bg">⚡</span>
+                <div>
+                  <h3>Active Recall Drill</h3>
+                  <p class="card-subtitle">Quick memory reinforcement</p>
+                </div>
+              </div>
+              <button class="btn btn-outline btn-xs" data-switch="cardsView">Full Deck</button>
+            </div>
+            <div class="mini-card-preview" id="quickFlashcardPreview">
+              <div class="flashcard-mini-box" id="miniFlashCard">
+                <div class="flashcard-badge" id="miniCardSubject">Unit 8: TN History</div>
+                <p class="flashcard-q" id="miniCardQuestion">Who was the first woman freedom fighter to take up arms against the British East India Company?</p>
+                <p class="flashcard-hint-text">Click card to reveal answer</p>
+              </div>
+              <div class="quick-recall-actions">
+                <button class="btn btn-outline btn-xs" id="btnMiniCardNext">Next Card</button>
+                <button class="btn btn-emerald btn-xs" id="btnMiniCardMaster">I Know This (+5% Mastery)</button>
+              </div>
+            </div>
+          </section>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- 2. FULL STUDY PLAN VIEW -->
+    <div id="planView" class="view-panel">
+      <div class="card plan-full-card">
+        <div class="card-header">
+          <div>
+            <h2>Personalized Study Roadmap</h2>
+            <p class="card-subtitle">Customized by your exam target, topic priorities, and available hours</p>
+          </div>
+          <div class="header-actions-inline">
+            <button class="btn btn-outline btn-sm" id="btnCustomizePlan">Customize Plan Settings</button>
+            <button class="btn btn-primary btn-sm" id="btnGenerateNewPlan">Regenerate Roadmap</button>
+          </div>
+        </div>
+
+        <div class="plan-summary-banner">
+          <div class="plan-summary-item">
+            <span class="summary-label">Target Goal</span>
+            <strong class="summary-val" id="planGoalVal">Semester Finals</strong>
+          </div>
+          <div class="plan-summary-item">
+            <span class="summary-label">Target Date</span>
+            <strong class="summary-val" id="planDateVal">In 18 Days</strong>
+          </div>
+          <div class="plan-summary-item">
+            <span class="summary-label">Daily Study Target</span>
+            <strong class="summary-val" id="planHoursVal">4.0 hrs / day</strong>
+          </div>
+          <div class="plan-summary-item">
+            <span class="summary-label">Weak Area Priority</span>
+            <strong class="summary-val text-amber" id="planWeakVal">Calculus, Physics</strong>
+          </div>
+        </div>
+
+        <!-- Weekly Plan Breakdown Tabs -->
+        <div class="week-tabs-bar" id="weekTabsContainer">
+          <button class="week-tab active" data-week="1">Week 1: Foundations & High-Yield</button>
+          <button class="week-tab" data-week="2">Week 2: Weak Area Deep Dives</button>
+          <button class="week-tab" data-week="3">Week 3: Practice Tests & Past Papers</button>
+          <button class="week-tab" data-week="4">Week 4: Final Revision & Formula Review</button>
+        </div>
+
+        <!-- Full Task Grid for Selected Week -->
+        <div class="plan-days-grid" id="planWeekTasksContainer">
+          <!-- Populated dynamically with Day 1 - Day 7 task lists -->
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. FOCUS STUDIO VIEW (Pomodoro & Ambient Audio) -->
+    <div id="focusView" class="view-panel">
+      <div class="card focus-studio-card">
+        <div class="card-header centered-header">
+          <h2>Focus Studio & Pomodoro</h2>
+          <p class="card-subtitle">Enter deep flow state. Sessions automatically sync with your daily progress log.</p>
+        </div>
+
+        <div class="timer-mode-selector">
+          <button class="mode-pill active" data-mode="pomodoro">Pomodoro (25m)</button>
+          <button class="mode-pill" data-mode="shortBreak">Short Break (5m)</button>
+          <button class="mode-pill" data-mode="longBreak">Long Break (15m)</button>
+        </div>
+
+        <div class="pomodoro-circle-wrapper">
+          <svg class="progress-ring" width="280" height="280" viewBox="0 0 280 280">
+            <circle class="progress-ring-bg" stroke="#e2e8f0" stroke-width="12" fill="transparent" r="120" cx="140" cy="140"/>
+            <circle class="progress-ring-circle" id="timerProgressCircle" stroke="#4f46e5" stroke-width="12" stroke-linecap="round" fill="transparent" r="120" cx="140" cy="140"/>
+          </svg>
+          <div class="timer-inside-content">
+            <span class="timer-time-big" id="studioTimerDigits">25:00</span>
+            <span class="timer-phase-label" id="timerPhaseText">Deep Focus Block</span>
+          </div>
+        </div>
+
+        <div class="timer-controls-main">
+          <button class="btn btn-primary btn-lg" id="btnStudioPlayPause">
+            <span id="playIcon">▶ Start Session</span>
+          </button>
+          <button class="btn btn-ghost" id="btnStudioReset">Reset</button>
+        </div>
+
+        <!-- Ambient Sound Generator (HTML5 Web Audio Synthesizer) -->
+        <div class="ambient-sound-bar">
+          <div class="sound-label-group">
+            <span class="ambient-icon">🎧</span>
+            <div>
+              <strong>Ambient Focus Sound</strong>
+              <p class="text-subtle">Synthesized in-browser audio (gentle rain & calm white noise)</p>
+            </div>
+          </div>
+          <div class="sound-buttons">
+            <button class="btn btn-outline btn-xs sound-toggle active" data-sound="none">Off</button>
+            <button class="btn btn-outline btn-xs sound-toggle" data-sound="rain">🌧️ Soft Rain</button>
+            <button class="btn btn-outline btn-xs sound-toggle" data-sound="whitenoise">🌊 Calm Waves</button>
+            <button class="btn btn-outline btn-xs sound-toggle" data-sound="binaural">🧘 Zen Hum</button>
+          </div>
+        </div>
+
+        <!-- Linked Task Selector for this Session -->
+        <div class="linked-task-box">
+          <label for="timerLinkedTask">Assign this focus session to a study task:</label>
+          <select id="timerLinkedTask" class="form-select">
+            <option value="none">General Focus Session</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. FLASHCARDS & ACTIVE RECALL VIEW -->
+    <div id="cardsView" class="view-panel">
+      <div class="card flashcards-hub-card">
+        <div class="card-header">
+          <div>
+            <h2>Active Recall Flashcard Deck</h2>
+            <p class="card-subtitle">Test yourself with spaced repetition drills to lock topics into long-term memory</p>
+          </div>
+          <div class="deck-filter-row">
+            <button class="deck-filter-btn active" data-subject="all">All PYQs</button>
+            <button class="deck-filter-btn" data-subject="Unit 8 & 9 (TN)">Unit 8 & 9 (TN)</button>
+            <button class="deck-filter-btn" data-subject="Indian Polity">Indian Polity</button>
+            <button class="deck-filter-btn" data-subject="Aptitude & Math">Aptitude & Math</button>
+            <button class="deck-filter-btn" data-subject="General Science">General Science</button>
+            <button class="deck-filter-btn" data-subject="RRB Railway GK">RRB Railway GK</button>
+          </div>
+        </div>
+
+        <!-- 3D Flipping Flashcard -->
+        <div class="flashcard-deck-center">
+          <div class="card-flip-container" id="flashcardElement">
+            <div class="card-flip-inner">
+              <!-- Front -->
+              <div class="card-flip-front">
+                <div class="card-top-tag">
+                  <span class="badge badge-indigo" id="fcSubjectTag">Unit 8 & 9 (TN)</span>
+                  <span class="card-counter" id="fcCounter">Card 1 / 10</span>
+                </div>
+                <div class="card-body-content">
+                  <span class="card-prompt-label">QUESTION (TNPSC / RRB PYQ)</span>
+                  <h3 class="card-question-text" id="fcQuestion">Who was the first Indian woman ruler to wage war against the British East India Company?</h3>
+                </div>
+                <div class="card-flip-cue">
+                  <span>💡 Click anywhere on the card to flip & check answer</span>
+                </div>
+              </div>
+              <!-- Back -->
+              <div class="card-flip-back">
+                <div class="card-top-tag">
+                  <span class="badge badge-emerald">ANSWER & EXPLANATION</span>
+                  <span class="card-counter">Unit 8</span>
+                </div>
+                <div class="card-body-content">
+                  <h3 class="card-answer-text" id="fcAnswer">Rani Velu Nachiyar (Sivaganga)</h3>
+                  <p class="card-explanation" id="fcExplanation">
+                    Known as 'Veeramangai', Rani Velu Nachiyar of Sivagangai recaptured her kingdom from the British East India Company in 1780 with the assistance of Hyder Ali and Gopala Nayakar.
+                  </p>
+                </div>
+                <div class="card-flip-cue">
+                  <span>Click to flip back to question</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Evaluation Buttons -->
+          <div class="flashcard-evaluation-bar">
+            <button class="btn btn-danger-soft" id="btnFcAgain">
+              <span>❌ Hard</span>
+              <small>Review Soon</small>
+            </button>
+            <button class="btn btn-amber-soft" id="btnFcGood">
+              <span>🤔 Good</span>
+              <small>Got It</small>
+            </button>
+            <button class="btn btn-emerald-soft" id="btnFcEasy">
+              <span>⭐ Easy</span>
+              <small>Mastered (+10% Sync)</small>
+            </button>
+          </div>
+
+          <div class="card-nav-arrows">
+            <button class="btn btn-ghost btn-sm" id="btnFcPrev">← Previous Card</button>
+            <button class="btn btn-ghost btn-sm" id="btnFcNext">Next Card →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MODALS -->
+
+  <!-- 1. Customize / Generate New Plan Modal -->
+  <div class="modal-overlay" id="planModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="modal-icon">⚙️</span>
+          <div>
+            <h3>Customize Your EduTwin Study Plan</h3>
+            <p class="modal-sub">Our algorithm shapes an adaptive curriculum for your targets</p>
+          </div>
+        </div>
+        <button class="modal-close" id="btnClosePlanModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="studyPlanForm">
+          <!-- 1-Click Exam Presets -->
+          <div class="form-group">
+            <label>Quick Exam Presets (1-Click Fill)</label>
+            <div class="exam-presets-grid" id="examPresetsRow">
+              <button type="button" class="btn-preset active" data-preset="tnpsc_g4">🏛️ TNPSC Group 4 / VAO</button>
+              <button type="button" class="btn-preset" data-preset="tnpsc_g2">📜 TNPSC Group 2 / 1</button>
+              <button type="button" class="btn-preset" data-preset="rrb_ntpc">🚆 RRB NTPC (CBT 1 & 2)</button>
+              <button type="button" class="btn-preset" data-preset="rrb_groupd">⚡ RRB Group D / ALP</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="inputExamGoal">Exam Target Name</label>
+            <input type="text" id="inputExamGoal" class="form-input" placeholder="e.g. TNPSC Group 4 / VAO, RRB NTPC" value="TNPSC Group 4 / VAO" required>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="inputExamDate">Target Exam Date</label>
+              <input type="date" id="inputExamDate" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label for="inputDailyHours">Available Daily Hours</label>
+              <input type="number" id="inputDailyHours" class="form-input" min="1" max="14" step="0.5" value="5.0" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Select Syllabus Subjects</label>
+            <div class="checkbox-tags-grid" id="subjectCheckboxGrid">
+              <label class="tag-checkbox"><input type="checkbox" name="subjectCheck" value="Unit 8 & 9 (TN)" checked> Unit 8 & 9 (TN)</label>
+              <label class="tag-checkbox"><input type="checkbox" name="subjectCheck" value="Indian Polity" checked> Indian Polity</label>
+              <label class="tag-checkbox"><input type="checkbox" name="subjectCheck" value="Aptitude & Mental Ability" checked> Aptitude & Mental Ability</label>
+              <label class="tag-checkbox"><input type="checkbox" name="subjectCheck" value="General Science" checked> General Science</label>
+              <label class="tag-checkbox"><input type="checkbox" name="subjectCheck" value="Indian Economy & INM" checked> Indian Economy & INM</label>
+              <label class="tag-checkbox"><input type="checkbox" name="subjectCheck" value="RRB General Awareness"> RRB General Awareness</label>
+              <label class="tag-checkbox"><input type="checkbox" name="subjectCheck" value="RRB Reasoning"> RRB Reasoning</label>
+              <label class="tag-checkbox"><input type="checkbox" name="subjectCheck" value="General Tamil"> General Tamil</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="inputWeakAreas">Priority / Weakest Subjects (Gets extra review blocks)</label>
+            <input type="text" id="inputWeakAreas" class="form-input" placeholder="e.g. Unit 8, Aptitude, Indian Polity" value="Unit 8 & 9 (TN), Aptitude & Mental Ability">
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-ghost" id="btnCancelPlanModal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Generate Adaptive Plan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Add Custom Topic Modal -->
+  <div class="modal-overlay" id="taskModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="modal-icon">📝</span>
+          <div>
+            <h3>Add Custom Study Topic</h3>
+            <p class="modal-sub">Add a specific topic or chapter to today's roadmap</p>
+          </div>
+        </div>
+        <button class="modal-close" id="btnCloseTaskModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="customTaskForm">
+          <div class="form-group">
+            <label for="customTaskTitle">Topic / Task Title</label>
+            <input type="text" id="customTaskTitle" class="form-input" placeholder="e.g. Solve 10 integration by parts questions" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="customTaskSubject">Subject</label>
+              <select id="customTaskSubject" class="form-select">
+                <option value="Unit 8 & 9 (TN)">Unit 8 & 9 (TN)</option>
+                <option value="Indian Polity">Indian Polity</option>
+                <option value="Aptitude & Mental Ability">Aptitude & Mental Ability</option>
+                <option value="General Science">General Science</option>
+                <option value="Indian Economy & INM">Indian Economy & INM</option>
+                <option value="RRB General Awareness">RRB General Awareness</option>
+                <option value="RRB Reasoning">RRB Reasoning</option>
+                <option value="General Tamil">General Tamil</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="customTaskDuration">Estimated Time (mins)</label>
+              <input type="number" id="customTaskDuration" class="form-input" value="45" min="10" step="5" required>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-ghost" id="btnCancelTaskModal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Add Topic to Plan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. EduTwin AI Advisor Modal -->
+  <div class="modal-overlay" id="twinAdvisorModal">
+    <div class="modal-dialog advisor-dialog">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="modal-icon">🤖</span>
+          <div>
+            <h3>EduTwin AI Study Advisor</h3>
+            <p class="modal-sub">Real-time learning diagnostic & personalized academic coaching</p>
+          </div>
+        </div>
+        <button class="modal-close" id="btnCloseAdvisorModal">&times;</button>
+      </div>
+      <div class="modal-body advisor-body">
+        <div class="advisor-chat-history" id="advisorChatHistory">
+          <!-- Chat messages dynamically rendered -->
+        </div>
+        <div class="advisor-input-bar">
+          <input type="text" id="advisorUserInput" class="form-input" placeholder="Ask EduTwin for study tips, revision methods, or motivation...">
+          <button class="btn btn-primary" id="btnSendAdvisorMessage">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+        <div class="quick-prompts-row">
+          <button class="quick-prompt-pill" data-prompt="⚡ Give me a 3-step active recall strategy for Unit 8 & 9 (TNPSC).">⚡ Unit 8 & 9 Strategy</button>
+          <button class="quick-prompt-pill" data-prompt="🎯 How do I tackle the 1/3 Negative Marking in RRB exams?">🎯 RRB Negative Marking</button>
+          <button class="quick-prompt-pill" data-prompt="📚 Which Samacheer Kalvi books are mandatory for TNPSC General Studies?">📚 Samacheer Kalvi Guide</button>
+          <button class="quick-prompt-pill" data-prompt="⏱️ What are the top speed-math shortcuts for Aptitude in TNPSC & RRB?">⏱️ Aptitude Speed Math</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="js/timer.js"></script>
+  <script src="js/streak.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/studyPlan.js"></script>
+  <script src="js/twinAdvisor.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

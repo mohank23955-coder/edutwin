@@ -1,0 +1,133 @@
+/* ==========================================================
+   EduTwin - Subtle & Polished Micro-Animations
+   "Animation is little and all these are very interactive"
+   ========================================================== */
+
+/* Button active press feedback */
+.btn:active, .nav-btn:active, .mode-pill:active, .deck-filter-btn:active {
+  transform: scale(0.97);
+}
+
+/* Subtle Card Hover Elevation */
+.card {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 6px 16px -2px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.03);
+}
+
+/* Gentle flame breathing animation */
+@keyframes flameBreathing {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 2px rgba(217, 119, 6, 0.2));
+  }
+  50% {
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 6px rgba(217, 119, 6, 0.35));
+  }
+}
+
+.flame-icon, .card-icon.flame-bg {
+  display: inline-block;
+  animation: flameBreathing 2.8s ease-in-out infinite;
+}
+
+/* Twin pulse indicator (status alive) */
+@keyframes pulseDot {
+  0% {
+    box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(5, 150, 105, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(5, 150, 105, 0);
+  }
+}
+
+.pulse-indicator {
+  animation: pulseDot 2.2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+/* Toast Notifications entry */
+@keyframes toastSlideIn {
+  from {
+    transform: translateX(100%) translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes toastSlideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* Progress Bar smooth fill */
+.progress-fill, .subject-fill {
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Circular Pomodoro Ring SVG transition */
+.progress-ring-circle {
+  transition: stroke-dashoffset 0.5s ease-in-out, stroke 0.3s ease;
+}
+
+/* Gentle checkmark celebration */
+@keyframes checkPop {
+  0% { transform: scale(0.8); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.task-checkbox:checked {
+  animation: checkPop 0.25s ease-out;
+}
+
+/* Flip card 3D perspective transition */
+.card-flip-inner {
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Chat bubble entrance */
+@keyframes bubbleFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat-bubble {
+  animation: bubbleFadeIn 0.22s ease-out forwards;
+}
+
+/* View transitions */
+.view-panel {
+  animation: viewFade 0.2s ease-out;
+}
+
+@keyframes viewFade {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
